@@ -17,7 +17,7 @@ func longestPalindrome(s string) string {
 	best := ""
 	for start := len(s) - 1; start >= 0; start-- {
 		for end := 0; end <= len(s)-1; end++ {
-			// если строка пустая, то это палиндром
+			// если строка пустая или состоит из 1 символа, то это палиндром
 			if start >= end {
 				dp[start][end] = true
 			}
