@@ -7,6 +7,7 @@ func main() {
 	fmt.Println(res)
 }
 
+// Given a string s, return the longest palindromic substring in s.
 func longestPalindrome(s string) string {
 	// dp[i][j] = i начало j конец
 	dp := make([][]bool, len(s))
