@@ -1,14 +1,18 @@
-﻿package main
+package main
 
-import "fmt"
+import (
+	"fmt"
+	"math"
+	"slices"
+)
 
 func main() {
-	nums := []int{2, 3, 1}
+	nums := []int{1, 3, 2}
 	nextPermutation(nums)
 	fmt.Println(nums)
 }
 
-func nextPermutation(nums []int) {
+func nextPermutation2(nums []int) {
 	if len(nums) < 2 {
 		return
 	}
@@ -21,30 +25,44 @@ func nextPermutation(nums []int) {
 	}
 
 	if isDescOrdered {
-		Reverse(nums)
+		slices.Reverse(nums)
 		return
 	}
 
-	for i := len(nums) - 1; i > 1; i-- {
-		if nums[i] > nums[i-1] {
-			nums[i], nums[i-1] = nums[i-1], nums[i]
+	for i := len(nums) - 2; i >= 0; i-- {
+		numIdx := -1
+		num := math.MaxInt32
+		for j := i + 1; j < len(nums); j++ {
+			if nums[j] < num && nums[i] < nums[j] {
+				numIdx = j
+				num = nums[j]
+			}
+		}
+
+		if numIdx != -1 {
+			nums[i], nums[numIdx] = nums[numIdx], nums[i]
+			slices.Sort(nums[i+1:])
 			return
 		}
 	}
-
-	PushRight(nums, nums[0])
 }
 
-func PushRight(nums []int, val int) {
-	for i := 0; i < len(nums)-1; i++ {
-		nums[i] = nums[i+1]
+func nextPermutation(nums []int) {
+	i := len(nums) - 1
+	for i > 0 && nums[i-1] >= nums[i] {
+		i--
 	}
 
-	nums[len(nums)-1] = val
-}
-
-func Reverse(nums []int) {
-	for i, j := 0, len(nums)-1; i < j; i, j = i+1, j-1 {
-		nums[i], nums[j] = nums[j], nums[i]
+	if i == 0 {
+		slices.Reverse(nums)
+		return
 	}
+
+	j := len(nums) - 1
+	for j >= i-1 && nums[j] <= nums[i-1] {
+		j--
+	}
+
+	nums[i-1], nums[j] = nums[j], nums[i-1]
+	slices.Reverse(nums[i:])
 }
