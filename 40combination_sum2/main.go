@@ -62,8 +62,7 @@ func rec(candidates []int, target int, start int, res *[][]int, picked []int) {
 			continue
 		}
 
-		newPicked := append([]int{}, picked...)
-		newPicked = append(newPicked, candidates[i])
+		newPicked := append([]int{candidates[i]}, picked...)
 		rec(candidates, target-candidates[i], i+1, res, newPicked)
 	}
 }
